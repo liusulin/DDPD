@@ -1,0 +1,16 @@
+out/
+wandb/
+__pycache__/
+
+# Ignore editor specific files
+.vscode/
+.idea/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+*.slurm
+*.out
+*.slurm.swp
+.locks/

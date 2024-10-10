@@ -1,0 +1,2 @@
+torchrun --standalone --nproc_per_node=4 train_planner.py text8/config/train_planner.py --batch_size=512 \
+  --gradient_accumulation_steps=4 --resume_dir=None --wandb_run_name='ddpd_planner' --model_type='ddpd_planner'
