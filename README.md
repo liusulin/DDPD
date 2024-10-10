@@ -67,7 +67,7 @@ bash text8/scripts/evaluate_samples_ddpd_uniD.sh
 @article{liu2024ddpd,
   title={Think While You Generate: Discrete Diffusion with Planned Denoising},
   author={Liu, Sulin and Nam, Juno and Campbell, Andrew and Stärk, Hannes and Xu, Yilun and Jaakkola, Tommi and Gómez-Bombarelli, Rafael},
-  journal={arXiv preprint arXiv:},
+  journal={arXiv preprint arXiv:2410.06264},
   year={2024}
 }
 ```
