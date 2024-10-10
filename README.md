@@ -61,6 +61,8 @@ bash text8/scripts/evaluate_samples_ddpd_uniD.sh
 
 **Results on ImageNet 256x256 token generation task:**
 ![ImageNet 256x256 token generation results](./assets/imagenet_256.png)
+**Increasing number of steps:**
+![ImageNet 256x256 token generation results with more steps](./assets/imagenet_256_steps.png)
 
 ## Citation
 ```
