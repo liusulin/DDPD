@@ -27,6 +27,13 @@ conda env create -f ddpd_text.yml
 ### Pretrained models
 Our pretrained models can be downloaed at [this link](https://huggingface.co/sulinliu/ddpd/tree/main).
 
+
+### Downloading the text8 dataset
+First we download the text8 data. Set the `DATA_DIR` variable within the `text8/data/download.sh` script to the location of this repository's data/text8 directory. Then run
+```shell
+bash text8/data/download.sh
+```
+
 ### Run training: denoiser
 ```python
 torchrun --standalone --nproc_per_node=4 train_denoiser.py text8/config/train_denoiser.py --batch_size=512 --gradient_accumulation_steps=4 --resume_dir=None --wandb_run_name='ddpd_denoiser_mask' --model_type='ddpd_denoiser_mask'
