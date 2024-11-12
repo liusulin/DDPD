@@ -80,3 +80,8 @@ bash text8/scripts/evaluate_samples_ddpd_uniD.sh
   year={2024}
 }
 ```
+## Acknowledgement
+This repo is built on top of
+[nanoGPT](https://github.com/karpathy/nanoGPT),
+[discrete_flow_models](https://github.com/andrew-cr/discrete_flow_models)
+
