@@ -33,19 +33,23 @@ First we download the text8 data. Set the `DATA_DIR` variable within the `text8/
 ```shell
 bash text8/data/download.sh
 ```
+Then we pre-process the downloaded data. Set the `text8_file_path` variable within the `text8/data/prepare.py` script to the location of the downloaded data. Then run
+```shell
+python text8/data/prepare.py
+```
 
 ### Run training: denoiser
-```python
+```shell
 torchrun --standalone --nproc_per_node=4 train_denoiser.py text8/config/train_denoiser.py --batch_size=512 --gradient_accumulation_steps=4 --resume_dir=None --wandb_run_name='ddpd_denoiser_mask' --model_type='ddpd_denoiser_mask'
 ```
 On a single node with 4 GPUs of 80GB memory, `batch_size` and `gradient_accumulation_steps` can be adjusted to fit in smaller GPU memory.
 ### Run training: planner
-```python
+```shell
 torchrun --standalone --nproc_per_node=4 train_planner.py text8/config/train_planner.py --batch_size=512 --gradient_accumulation_steps=4 --resume_dir=None --wandb_run_name='ddpd_planner' --model_type='ddpd_planner'
 ```
 
 ### Run sampling code
-```python
+```shell
 python sample_text8.py text8/config/sample.py
 ```
 To replicate the results of DDPD-MaskD and DDPD-UniD in the following figure,  
