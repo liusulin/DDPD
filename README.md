@@ -59,7 +59,7 @@ bash text8/scripts/generate_samples_ddpd_uniD.sh
 bash text8/scripts/evaluate_samples_ddpd_maskD.sh
 bash text8/scripts/evaluate_samples_ddpd_uniD.sh
 ```
-**Results on text8 conditional generation task:**
+**Results on text8 unconditional generation task:**
 ![Language modeling results](./assets/text8.png)
 
 ## Code for OpenWebText language modeling task (Coming soon)
