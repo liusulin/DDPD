@@ -62,8 +62,8 @@ bash text8/scripts/evaluate_samples_ddpd_uniD.sh
 **Results on text8 unconditional generation task:**
 ![Language modeling results](./assets/text8.png)
 
-## Code for OpenWebText language modeling task (Coming soon)
-
+## Code for OpenWebText language modeling task
+All code are within `owt/` folder. Code should be run within `owt/` folder.
 ### Install environment
 ```shell
 conda env create -f ddpd_text.yml
