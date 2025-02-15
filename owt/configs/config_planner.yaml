@@ -1,0 +1,82 @@
+defaults:
+  - _self_
+  - model: tiny
+  - override hydra/launcher: submitit_slurm
+
+ngpus: 4
+tokens: 50257
+compile: False # does not work yet
+load_dir: null
+work_dir: null
+
+wandb:
+  project: openwebtext
+  run_name: pred_mask
+  id: null
+  is_resume: False
+
+training:
+  batch_size: 128
+  accum: 1
+  n_iters: 1300001
+  snapshot_freq: 50000
+  log_freq: 50
+  eval_freq: 100
+  snapshot_freq_for_preemption: 10000
+  weight: standard
+  snapshot_sampling: True
+  ema: 0.9999
+  weighted_by_time: True
+
+data:
+  train: openwebtext
+  valid: wikitext103
+  cache_dir: /path/to/data
+  num_proc: 64
+
+graph:
+  type: uniform
+  file: data
+  report_all: False
+
+noise:
+  type: loglinear
+  sigma_min: 1e-4
+  sigma_max: 20
+
+sampling:
+  predictor: euler
+  steps: 128
+  noise_removal: True
+
+eval:
+  batch_size: 128
+  perplexity: True
+  perplexity_batch_size: 32
+
+optim:
+  weight_decay: 0
+  optimizer: AdamW
+  lr: 3e-4
+  beta1: 0.9
+  beta2: 0.999
+  eps: 1e-8
+  warmup: 2500
+  grad_clip: 1.
+
+
+hydra:
+  run:
+    dir: /path/to/exp_local/${data.train}/${now:%Y.%m.%d}/${now:%H%M%S}
+  sweep:
+    dir: /path/to/exp/${data.train}/${now:%Y.%m.%d}/${now:%H%M%S}
+    subdir: ${hydra.job.num}
+  launcher:
+    max_num_timeout: 100000
+    # timeout_min: 10079
+    # partition: null
+    account: m4604
+    # mem_gb: null
+    constraint: gpu&hbm80g
+    cpus_per_task: 32
+    gpus_per_node: ${ngpus}

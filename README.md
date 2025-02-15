@@ -17,7 +17,7 @@ Cross-entropy loss for predicting the binary mask of noise tokens for the planne
 
 --- 
 ## Code for text8 language modeling task
-### Install
+### Install environment
 Package requirements are listed in `ddpd_text.yml`. [Mamba](https://mamba.readthedocs.io/en/latest/) is recommended for faster installation.
 
 ```shell
@@ -63,6 +63,40 @@ bash text8/scripts/evaluate_samples_ddpd_uniD.sh
 ![Language modeling results](./assets/text8.png)
 
 ## Code for OpenWebText language modeling task (Coming soon)
+
+### Install environment
+```shell
+conda env create -f ddpd_text.yml
+```
+
+### Run training: denoiser
+```shell
+python train_denoiser.py owt/configs/config_denoiser.yaml
+```
+Note that the config file follows original SEDD's denoiser config, which is a masked denoiser. From the reparameterization between score-entropy and $p(x_1|x_t)$ reconstruction (see Table 1 in [our paper](https://arxiv.org/abs/2410.06264) or [this paper](https://arxiv.org/abs/2406.03736)), the denoiser can be converted to a $p(x_1|x_t)$ masked denoiser.
+### Run training: planner
+```shell
+python train_planner.py owt/configs/config_planner.yaml
+```
+Note that for planner, uniform noise is applied. See config file for more details.
+
+### Pretrained models
+Pretrained SEDD denoisers are hosted on HuggingFace ([small](https://huggingface.co/louaaron/sedd-small), [medium](https://huggingface.co/louaaron/sedd-medium)). Pretrained DDPD planner is here ([small](https://huggingface.co/sulinliu/ddpd/tree/main/owt_planner)). Download the planner into a folder and use load_model_local_planner to load the model.
+
+### Run sampling code
+DDPD: using SEDD-small denoiser and DDPD-small planner.
+```shell
+python run_sample.py --method=ddpd --steps=4096 --denoiser_model_path=louaaron/sedd-small --batch_size=50 --planner_model_path=/path/to/planner/model
+```
+SEDD: using SEDD-small denoiser.
+```shell
+python run_sample.py --method=sedd --steps=4096 --denoiser_model_path=louaaron/sedd-small --batch_size=50
+```
+GPT-2: using GPT-2-small.
+```shell
+python run_sample_gpt.py --model_id=gpt2 --top_p=0.8 --batch_size=50 --num_texts_per_gpu=50 --allow_eos
+```
+See `owt/scripts` for scripts of generating samples of DDPD, SEDD, and GPT-2 for the results below.
 
 **Results on OpenWebText language modeling unconditional generation task:**
 ![Language modeling results](./assets/owt.png)
