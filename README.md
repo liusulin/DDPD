@@ -121,5 +121,5 @@ See `owt/scripts` for scripts of generating samples of DDPD, SEDD, and GPT-2 for
 ## Acknowledgement
 This repo is built on top of
 [nanoGPT](https://github.com/karpathy/nanoGPT),
-[discrete_flow_models](https://github.com/andrew-cr/discrete_flow_models)
-
+[discrete_flow_models](https://github.com/andrew-cr/discrete_flow_models),
+[Score Entropy Discrete Diffusion](https://github.com/louaaron/Score-Entropy-Discrete-Diffusion).
