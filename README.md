@@ -18,7 +18,7 @@ Cross-entropy loss for predicting the binary mask of noise tokens for the planne
 --- 
 ## Code for text8 language modeling task
 ### Install environment
-Package requirements are listed in `ddpd_text.yml`. [Mamba](https://mamba.readthedocs.io/en/latest/) is recommended for faster installation.
+Package requirements are listed in `ddpd_text.yml`. [Mamba](https://mamba.readthedocs.io/en/latest/) is recommended for faster installation. Or use the latest conda with [Libmamba solver](https://www.anaconda.com/blog/a-faster-conda-for-a-growing-community).
 
 ```shell
 conda env create -f ddpd_text.yml
@@ -102,7 +102,32 @@ See `owt/scripts` for scripts of generating samples of DDPD, SEDD, and GPT-2 for
 ![Language modeling results](./assets/owt.png)
 
 
-## Code for ImageNet 256x256 token generation task (Coming soon)
+## Code for ImageNet 256x256 token generation task
+
+All code are within `imagenet/` folder. Code should be run within `imagenet/` folder. We use the 1d tokenizer in [this paper](https://yucornetto.github.io/projects/titok.html) with the [TiTok-S-128 tokenizer](https://github.com/bytedance/1d-tokenizer/blob/main/README_TiTok.md).
+### Install environment
+```shell
+conda env create -f ddpd_image.yml
+```
+
+### Extract tokens using the tokenizer
+First prepare the tokens for training by extracting the images using the tokenizer
+```shell
+torchrun --nnodes=1 --nproc_per_node=1 extract_features.py --config-path configs/titok_s128.yaml
+ --data-path /path/to/imagenet/ILSVRC/Data/CLS-LOC/train
+ --features-path /path/to/features
+```
+
+### Train planner using extracted tokens
+Update the tokens path accordingly based on where the extracted tokens are stored
+```shell
+accelerate launch train_planner.py config=configs/planner_s128.yaml
+```
+### Sampling code script
+On multinode and multi GPUs.
+```shell
+bash scripts/sample_ddpd_nocfg.sh
+```
 
 **Results on ImageNet 256x256 token generation task:**
 ![ImageNet 256x256 token generation results](./assets/imagenet_256.png)
@@ -122,4 +147,6 @@ See `owt/scripts` for scripts of generating samples of DDPD, SEDD, and GPT-2 for
 This repo is built on top of
 [nanoGPT](https://github.com/karpathy/nanoGPT),
 [discrete_flow_models](https://github.com/andrew-cr/discrete_flow_models),
-[Score Entropy Discrete Diffusion](https://github.com/louaaron/Score-Entropy-Discrete-Diffusion).
+[Score Entropy Discrete Diffusion](https://github.com/louaaron/Score-Entropy-Discrete-Diffusion),
+[1d-tokenizer](https://github.com/bytedance/1d-tokenizer),
+[fast-DiT](https://github.com/chuanyangjin/fast-DiT).

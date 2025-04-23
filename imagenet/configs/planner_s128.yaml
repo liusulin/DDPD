@@ -1,0 +1,71 @@
+model:
+    vq_model:
+        codebook_size: 4096
+        token_size: 12
+        use_l2_norm: True
+        commitment_cost: 0.25
+        # vit arch
+        vit_enc_model_size: "small"
+        vit_dec_model_size: "small"
+        vit_enc_patch_size: 16
+        vit_dec_patch_size: 16
+        num_latent_tokens: 128
+    generator:
+        model_type: "UViT"
+        hidden_size: 1024
+        num_hidden_layers: 20
+        num_attention_heads: 16
+        intermediate_size: 4096
+        dropout: 0.1
+        attn_drop: 0.1
+        num_steps: 64
+        mask_schedule_strategy: "arccos"
+        class_label_dropout: 0.1
+        image_seq_len: 128
+        condition_num_classes: 1000
+
+        # sampling hyper-params
+        randomize_temperature: 2.8
+        guidance_scale: 6.9
+        guidance_decay: "power-cosine"
+    planner:
+        model_type: "UViT"
+
+dataset:
+    preprocessing:
+        crop_size: 256
+
+training:
+    global_batch_size: 2048
+    gradient_accumulation_steps: 1
+    mixed_precision: 'bf16'
+    cond_drop_prob: 0.1
+    mask_rate_max: 1.0
+    mask_rate_min: 0.0
+    mask_schedule: "linear"
+    lr: 1e-4
+    min_lr: 1e-5
+    iter: 500000
+    warmup_iters: 1000
+    lr_decay_iters: 500000
+    weight_decay: 0.03
+    ema_decay: 0.9999
+    max_grad_norm: 1.0
+    feature_path: "/path/to/features/imagenet256_s128"
+    num_workers: 16
+    seed: 42
+    compile: True
+
+experiment:
+    project: "1d-tokenizer"
+    log_every: 50
+    eval_every: 2000
+    ckpt_every: 50000
+    resume_from_checkpoint: False
+    warmup_from_generator: False
+    name: "planner_s128_w_${experiment.warmup_from_generator}_${training.mask_rate_max}_${training.mask_rate_min}_${training.mask_schedule}"
+    resume_checkpoint_path: null
+    wandb_run_id: null
+    results_dir: "/path/to/results"
+    tokenizer_checkpoint: "/path/to/tokenizer/checkpoint"
+    generator_checkpoint: "/path/to/generator/checkpoint"
