@@ -1,6 +1,6 @@
 # DDPD: Discrete Diffusion with Planned Denoising
 Code repository for the paper [Think While You Generate: Discrete Diffusion with Planned Denoising](https://arxiv.org/abs/2410.06264),
-by Sulin Liu, Juno Nam, Andrew Campbell, Hannes Stärk, Yilun Xu, Tommi Jaakkola, Rafael Gómez-Bombarelli. Check this [tweet](https://x.com/su_lin_liu/status/1846588886493094072) for the main idea.
+by Sulin Liu, Juno Nam, Andrew Campbell, Hannes Stärk, Yilun Xu, Tommi Jaakkola, Rafael Gómez-Bombarelli. [Tweet](https://x.com/su_lin_liu/status/1846588886493094072) and [video](https://youtu.be/i3y5DYyyjTc?si=SrZ_KaQRBFQkrXlh) for the main idea.
 
 ![DDPD overview](./assets/ddpd_main.png)
 
